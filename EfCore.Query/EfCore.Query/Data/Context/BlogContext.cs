@@ -12,8 +12,13 @@ namespace EfCore.Query.Data.Context
     public class BlogContext : DbContext
     {
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //LazyLoading
+            //optionsBuilder.UseLazyLoadingProxies()
+            //    .UseSqlServer("server=LEGEN\\MSSQLSERVER01;database=BlogContext;integrated security=true; Trust Server Certificate=true;");
+
             optionsBuilder.UseSqlServer("server=LEGEN\\MSSQLSERVER01;database=BlogContext;integrated security=true; Trust Server Certificate=true;");
 
             optionsBuilder.LogTo(Console.WriteLine,
@@ -24,6 +29,7 @@ namespace EfCore.Query.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BlogConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }
